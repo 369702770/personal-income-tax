@@ -3,6 +3,7 @@ package com.xyl.personalincometax.service;
 import com.xyl.personalincometax.util.NumberUtil;
 import com.xyl.personalincometax.vo.Money;
 import org.springframework.stereotype.Service;
+import com.xyl.personalincometax.constant.Constants;
 
 import java.math.BigDecimal;
 
@@ -21,7 +22,9 @@ public class PoorIncomeTax implements IncomeTaxStrategyFactory {
     @Override
     public Money incomeTax(BigDecimal grossPay,BigDecimal socialInsurancePremium,BigDecimal threshold){
         Money money=new Money();
-        NumberUtil.safeMultiply(grossPay,new BigDecimal("0.78"));
+        //先扣除五险一金
+        BigDecimal homePay=NumberUtil.safeMultiply(grossPay,Constants.loss);
+
 
         return money;
     }
