@@ -8,20 +8,26 @@ import java.math.BigDecimal;
 
 @Service
 public class HomePayService {
-    public Money homePay(BigDecimal grossPay, BigDecimal loss, BigDecimal threshold, Double taxRate, Double quickCalculDeduction){
-        Money money=new Money();
+    public Money homePay(BigDecimal grossPay, BigDecimal socialInsurancePremium, BigDecimal loss, BigDecimal
+            threshold, Double taxRate, Double quickCalculDeduction) {
+        Money money = new Money();
         //扣除五险一金
-        BigDecimal persionalTax= NumberUtil.safeMultiply(grossPay,loss);
+        BigDecimal persionalTax;
+        if (socialInsurancePremium != null) {
+            persionalTax = NumberUtil.safeSubtract(grossPay, socialInsurancePremium);
+        } else {
+            persionalTax = NumberUtil.safeMultiply(grossPay, loss);
+        }
         //应税工资
-        BigDecimal taxableIncome=persionalTax;
+        BigDecimal taxableIncome = persionalTax;
         //减掉起征点
-        persionalTax=NumberUtil.safeSubtract(persionalTax,threshold);
+        persionalTax = NumberUtil.safeSubtract(persionalTax, threshold);
         //乘以使用税率
-        persionalTax=NumberUtil.safeMultiply(persionalTax,new BigDecimal(taxRate));
+        persionalTax = NumberUtil.safeMultiply(persionalTax, new BigDecimal(taxRate));
         //减去速算扣除数
-        persionalTax=NumberUtil.safeSubtract(persionalTax,new BigDecimal(quickCalculDeduction));
+        persionalTax = NumberUtil.safeSubtract(persionalTax, new BigDecimal(quickCalculDeduction));
         //税后收入=应税工资-个人所得税
-        BigDecimal homePay=NumberUtil.safeSubtract(taxableIncome,persionalTax);
+        BigDecimal homePay = NumberUtil.safeSubtract(taxableIncome, persionalTax);
         //税后收入
         money.setHomePay(homePay);
         //个人所得税
