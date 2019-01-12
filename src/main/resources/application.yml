@@ -1,2 +1,5 @@
 Server:
   port: 8080
+#速算扣除数
+tax:
+  poorQuickCalculDeduction: 210.0 1410.0 2660.0 4410.0 7160.0 15160.0

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 /**
  * 计算个税策略工厂
  */
-public interface IncomeTaxStrategyFactory {
+public interface IncomeTaxInterface {
     /**
      * 计算个税
      * @param grossPay 税前收入
@@ -15,6 +15,6 @@ public interface IncomeTaxStrategyFactory {
      * @param threshold 起征点
      * @return 税后收入
      */
-    public Money incomeTax(BigDecimal grossPay, BigDecimal socialInsurancePremium, BigDecimal threshold);
+    Money incomeTax(BigDecimal grossPay, BigDecimal socialInsurancePremium, BigDecimal threshold);
 
 }

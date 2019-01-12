@@ -2,7 +2,7 @@ package com.xyl.personalincometax.contruller;
 
 import com.xyl.personalincometax.response.Result;
 import com.xyl.personalincometax.response.Results;
-import com.xyl.personalincometax.service.PoorIncomeTax;
+import com.xyl.personalincometax.service.IncomeTaxImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,8 +18,16 @@ import java.math.BigDecimal;
 @RestController
 public class TaxContruller {
     @Autowired
-    private PoorIncomeTax poorIncomeTax;
+    private IncomeTaxImpl poorIncomeTax;
 
+    /**
+     * 计算个税
+     *
+     * @param grossPay               税前收入
+     * @param socialInsurancePremium 各项社会保险费
+     * @param threshold              起征点
+     * @return 税后收入
+     */
     @RequestMapping(value = "/money", method = RequestMethod.GET)
     public Result getMoney(@RequestParam(value = "grossPay") BigDecimal grossPay,
                            @RequestParam(value = "socialInsurancePremium", required = false) BigDecimal
